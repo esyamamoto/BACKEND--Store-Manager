@@ -2,7 +2,7 @@ const express = require('express');
 const productsController = require('./controllers/productsController');
 
 const app = express();
-
+// reestruturação - mentoria
 // Rota para listar todos os produtos
 app.get('/products', productsController.getAllProducts);
 
