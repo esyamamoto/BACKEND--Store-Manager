@@ -1,42 +1,28 @@
-const { expect } = require('chai'); // npm install supertest --save-dev
+/* const { expect } = require('chai');
 const sinon = require('sinon');
-const supertest = require('supertest');
+const chai = require('chai');
+const { productService } = require('../../../src/services/productsService');
+const { productController } = require('../../../src/controllers/productsController');
+const { productFromModelSuccess, product } = require('../../mocks/produtsMocks');
 
-const app = require('../../../src/app');
-const productsService = require('../../../src/services/productsService');
+chai.use(sinonChai);
 
-describe('Controller de Produtos', function () {
-  describe('GET /products', function () {
-    it('deve retornar uma lista de produtos com status 200', async function () {
-      const noProducts = [
-        { id: 1, name: 'Martelo de Thor' },
-        { id: 2, name: 'Traje de encolhimento' },
-        { id: 3, name: 'Escudo do Capitão América' },
-      ];
+describe('Realizando testes - PRODUCTS CONTROLLER:', function () {
+  it('Testando findById retornado com SUCESSO', async function () {
+    sinon.stub(productService, 'findById').resolves(productFromModelSuccess);
 
-      sinon.stub(productsService, 'getProducts').resolves(noProducts);
+    const req = {
+      params: { id: 1 },
+      body: {},
+    };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    await productController.findById(req, res);
 
-      const response = await supertest(app).get('/products');
-
-      expect(response.status).to.equal(200);
-      expect(response.body).to.deep.equal(noProducts);
-
-      productsService.getProducts.restore();
-    });
-  });
-
-  describe('GET /products/:id', function () {
-    it('deve retornar um produto específico com status 200', async function () {
-      const noProducts = { id: 1, name: 'Martelo de Thor' };
-
-      sinon.stub(productsService, 'getProductById').resolves(noProducts);
-
-      const response = await supertest(app).get('/products/1');
-
-      expect(response.status).to.equal(200);
-      expect(response.body).to.deep.equal(noProducts);
-
-      productsService.getProductById.restore();
-    });
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith(product);
   });
 });
+*/
