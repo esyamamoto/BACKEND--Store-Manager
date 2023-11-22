@@ -6,7 +6,6 @@ const getProducts = async () => {
     return products;
   } catch (error) {
     console.error({ message: 'Product not found' });
-    throw error;
   }
 };
 
@@ -16,7 +15,6 @@ const getProductById = async (id) => {
     return product;
   } catch (error) {
     console.error({ message: 'Product not found' });
-    throw error;
   }
 };
 
