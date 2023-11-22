@@ -18,7 +18,7 @@ const product01 = {
 };
 
 const productOK = { status: 'SUCCESS', data: product01 };
-const notFound = { status: 'NOT_FOUND', message: 'Product not found' };
+const notFound = { status: 'NOT_FOUND', data: { message: 'Product not found' } };
 
 module.exports = {
   mockProducts,

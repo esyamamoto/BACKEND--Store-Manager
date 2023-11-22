@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const Sinon = require('sinon');
 const controller = require('../../../src/controllers/productsController');
-const mockProducts = require('../../mocks/produtsMocks');
+const { mockProducts, notFound } = require('../../mocks/produtsMocks');
 const service = require('../../../src/services/productsService');
 
 describe('Testes do productsController:', function () {
@@ -21,6 +21,18 @@ describe('Testes do productsController:', function () {
     expect(res.json.calledWith(mockProducts)).to.equal(false);
 
     controller.getAllProducts.restore();
+  });
+  it('Busca com id inválido e traz o NOT_FOUND', async function () {
+    Sinon.stub(service, 'getProductById').resolves(notFound);
+
+    const req = { params: { id: 666 } };
+    const res = {};
+    res.status = Sinon.stub().returns(res);
+    res.json = Sinon.stub().returns(res);
+
+    await controller.getProductById(req, res);
+    expect(res.status.calledWith(404)).to.be.equal(false);
+    expect(res.json.calledWith({ message: 'Product not found' })).to.equal(false);
   });
   
   afterEach(function () {
