@@ -34,7 +34,21 @@ describe('Testes do productsController:', function () {
     expect(res.status.calledWith(404)).to.be.equal(false);
     expect(res.json.calledWith({ message: 'Product not found' })).to.equal(false);
   });
-  
+
+  it('Deve mostrar Internal Server Error se tiver o erro 500', async function () {
+    const errorMessage = 'Internal Server Error';
+    Sinon.stub(service, 'getProductById').rejects(new Error(errorMessage));
+    const req = { params: { id: 453 } };
+    const res = { status: Sinon.stub(), json: Sinon.stub() };
+
+    res.status.returns(res);
+
+    await controller.getProductById(req, res);
+
+    Sinon.assert.calledWith(res.status, 500);
+    Sinon.assert.calledWith(res.json, { message: errorMessage });
+  });
+
   afterEach(function () {
     Sinon.restore();
   });
