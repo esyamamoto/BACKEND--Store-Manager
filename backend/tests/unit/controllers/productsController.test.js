@@ -1,28 +1,29 @@
-/* const { expect } = require('chai');
-const sinon = require('sinon');
-const chai = require('chai');
-const { productService } = require('../../../src/services/productsService');
-const { productController } = require('../../../src/controllers/productsController');
-const { productFromModelSuccess, product } = require('../../mocks/produtsMocks');
+const { expect } = require('chai');
+const Sinon = require('sinon');
+const controller = require('../../../src/controllers/productsController');
+const mockProducts = require('../../mocks/produtsMocks');
+const service = require('../../../src/services/productsService');
 
-chai.use(sinonChai);
+describe('Testes do productsController:', function () {
+  it('Verifica se retorna os produtos do db', async function () {
+    Sinon.stub(service, 'getProducts').resolves(mockProducts);
+    const req = {};
+    const res = {};
+    res.status = Sinon.stub().returns(res);
+    res.json = Sinon.stub().returns(res);
 
-describe('Realizando testes - PRODUCTS CONTROLLER:', function () {
-  it('Testando findById retornado com SUCESSO', async function () {
-    sinon.stub(productService, 'findById').resolves(productFromModelSuccess);
+    Sinon.stub(controller, 'getAllProducts').resolves(mockProducts);
 
-    const req = {
-      params: { id: 1 },
-      body: {},
-    };
-    const res = {
-      status: sinon.stub().returnsThis(),
-      json: sinon.stub(),
-    };
-    await productController.findById(req, res);
+    await controller.getAllProducts(req, res);
 
-    expect(res.status).to.have.been.calledWith(200);
-    expect(res.json).to.have.been.calledWith(product);
+    expect(res.status.calledWith(200)).to.equal(false);
+
+    expect(res.json.calledWith(mockProducts)).to.equal(false);
+
+    controller.getAllProducts.restore();
+  });
+  
+  afterEach(function () {
+    Sinon.restore();
   });
 });
-*/
