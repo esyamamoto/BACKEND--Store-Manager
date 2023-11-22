@@ -1,12 +1,13 @@
 const { expect } = require('chai');
-const Sinon = require('sinon');
+const sinon = require('sinon');
 const model = require('../../../src/models/productsModel');
 const service = require('../../../src/services/productsService');
+const db = require('../../../src/models/db');
 
 describe('Testes do productsService:', function () {
   it('Verifica se retorna a mensagem de erro', async function () {
     const errorMessage = 'Product not found';
-    const stub = Sinon.stub(model, 'getProductById').rejects(new Error(errorMessage)); 
+    const stub = sinon.stub(model, 'getProductById').rejects(new Error(errorMessage)); 
   
     try {
       await service.getProductById(651);
@@ -17,8 +18,24 @@ describe('Testes do productsService:', function () {
     expect(stub.calledOnce).to.equal(true);
     stub.restore();
   });
+
+  it('deve retornar os products', async function () {
+    const products = [
+      { id: 1, name: 'Martelo de Thor' },
+      { id: 2, name: 'Traje de encolhimento' },
+      { id: 3, name: 'Escudo do Capitão América' },
+    ];
+
+    sinon.stub(db, 'execute').resolves([products]);
+
+    const productsAll = await model.getProducts();
+
+    expect(productsAll).to.deep.equal(products);
+
+    db.execute.restore();
+  });
   
   afterEach(function () {
-    Sinon.restore();
+    sinon.restore();
   });
 });
