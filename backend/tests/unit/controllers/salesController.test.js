@@ -20,7 +20,7 @@ describe('Testes do salesController:', function () {
 
     expect(res.json.calledWith(mockSales)).to.equal(false);
 
-    controller.getAllSales.restore();
+    Sinon.restore();
   });
   it('Busca com id inválido e traz o NOT_FOUND', async function () {
     Sinon.stub(service, 'getSalesById').resolves(salesNoFound);

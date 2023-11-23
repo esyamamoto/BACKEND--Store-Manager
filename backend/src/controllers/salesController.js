@@ -16,13 +16,13 @@ const getSalesById = async (req, res) => {
   try {
     const sales = await salesService.getSalesById(id);
 
-    if (!sales) {
-      res.status(404).json({ message: 'Sales not found' });
+    if (!sales || sales.length === 0) {
+      res.status(404).json({ message: 'Sale not found' });
     } else {
       res.status(200).json(sales);
     }
   } catch (error) {
-    console.error({ message: 'Sales not found' });
+    console.error({ message: 'Sale not found' });
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };

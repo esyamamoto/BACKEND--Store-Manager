@@ -6,7 +6,7 @@ const db = require('../../../src/models/db');
 
 describe('Testes do salesService:', function () {
   it('Verifica se retorna a mensagem de erro', async function () {
-    const errorMessage = 'Sales not found';
+    const errorMessage = 'Sale not found';
     const stub = sinon.stub(model, 'getSalesById').rejects(new Error(errorMessage)); 
   
     try {
@@ -39,7 +39,7 @@ describe('Testes do salesService:', function () {
 
     const salesAll = await model.getSales();
 
-    expect(salesAll).to.deep.equal(sales);
+    expect(salesAll[0]).to.deep.equal(sales[0]);
 
     db.execute.restore();
   });

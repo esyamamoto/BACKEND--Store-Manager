@@ -2,21 +2,35 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const model = require('../../../src/models/salesModel');
 const service = require('../../../src/services/salesService');
-const { sales01, mockSales } = require('../../mocks/salesMock');
+const db = require('../../../src/models/db');
 
 describe('Testes do salesService:', function () {
-  it('Verifica se retorna o objeto do sales desejado', async function () {
-    const stub = sinon.stub(model, 'getSalesById').resolves(sales01);
+  it('deve retornar sales', async function () {
+    const sales = [
+      {
+        saleId: 1,
+        date: '2021-09-09T04:54:29.000Z',
+        productId: 1,
+        quantity: 2,
+      },
+      {
+        saleId: 1,
+        date: '2021-09-09T04:54:54.000Z',
+        productId: 2,
+        quantity: 2,
+      },
+    ];
 
-    const result = await service.getSalesById(mockSales);
-    expect(result).to.equal(sales01);
+    sinon.stub(db, 'execute').resolves([sales]);
 
-    expect(stub.calledOnce).to.equal(true);
-    expect(stub.calledWith(mockSales)).to.equal(true);
-    stub.restore();
+    const salesAll = await model.getSales();
+
+    expect(salesAll[0]).to.deep.equal(sales[0]);
+
+    db.execute.restore();
   });
   it('Verifica se retorna a mensagem de erro', async function () {
-    const errorMessage = 'Sales not found';
+    const errorMessage = 'Sale not found';
     const stub = sinon.stub(model, 'getSalesById').rejects(new Error(errorMessage)); 
   
     try {

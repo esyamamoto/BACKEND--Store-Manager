@@ -11,7 +11,7 @@ const getSales = async () => {
     ORDER BY sales_products.sale_id, product_id`);
     return camelize(sales);
   } catch (error) {
-    console.error({ message: 'Sales not found' });
+    console.error({ message: 'Sale not found' });
     throw error;
   }
 };
@@ -25,9 +25,9 @@ const getSalesById = async (id) => {
       INNER JOIN sales_products
       ON sales_products.sale_id = sales.id
       WHERE sales.id = ?`, [id]);
-    return camelize(sales[0]);
+    return camelize(sales);
   } catch (error) {
-    console.error({ message: 'Sales not found' });
+    console.error({ message: 'Sale not found' });
     throw error;
   }
 };
