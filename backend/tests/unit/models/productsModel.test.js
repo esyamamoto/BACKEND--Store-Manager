@@ -19,7 +19,7 @@ describe('Testes do productsService:', function () {
     stub.restore();
   });
 
-  it('deve retornar os products', async function () {
+  it('Retornar os products', async function () {
     const products = [
       { id: 1, name: 'Martelo de Thor' },
       { id: 2, name: 'Traje de encolhimento' },
@@ -34,7 +34,19 @@ describe('Testes do productsService:', function () {
 
     db.execute.restore();
   });
+  it('Retorna se foi possivel criar um novo produto com sucesso', async function () {
+    const newProduct = { name: 'ProdutoX' };
+    const insertId = 4;
+    
+    sinon.stub(db, 'execute').resolves([{ insertId }]);
+    
+    const result = await model.newProductModel(newProduct);
   
+    expect(result).to.deep.equal({ id: insertId, name: newProduct.name });
+  
+    db.execute.restore();
+  });
+
   afterEach(function () {
     sinon.restore();
   });

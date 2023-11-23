@@ -20,7 +20,22 @@ const getProductById = async (id) => {
   }
 };
 
+const newProductModel = async (newProduct) => {
+  try {
+    const { name } = newProduct;
+    const [{ insertId }] = await connectionDB.execute(
+      'INSERT INTO products (name) VALUES (?)',
+      [name],
+    );
+    return { id: insertId, name };
+  } catch (error) {
+    console.error({ message: 'Product not registered' });
+    throw error;
+  }
+};
+
 module.exports = {
   getProducts,
   getProductById,
+  newProductModel,
 };

@@ -15,7 +15,16 @@ describe('Testes do productsService:', function () {
     expect(stub.calledWith(mockProducts)).to.equal(true);
     stub.restore();
   });
-  
+
+  it('Deve criar um novo produto através do serviço', async function () {
+    Sinon.stub(model, 'newProductModel').resolves(product01);
+    const inputData = { name: '12345' };
+
+    const response = await service.newProductService(inputData);
+    expect(response.status).to.equal('CREATED');
+    expect(response.data).to.equal(product01);
+  });
+
   afterEach(function () {
     Sinon.restore();
   });

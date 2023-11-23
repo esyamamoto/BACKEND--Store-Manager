@@ -18,7 +18,19 @@ const getProductById = async (id) => {
   }
 };
 
+const newProductService = async (newProduct) => {
+  // coloquei validação no middlewares
+  try {
+    const product = await productsModel.newProductModel(newProduct);
+    return ({ status: 'CREATED', data: product });
+  } catch (error) {
+    console.error('Error creating new product:', error);
+    return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Internal Server Error' } };
+  }
+};
+
 module.exports = {
   getProducts,
   getProductById,
+  newProductService,
 };

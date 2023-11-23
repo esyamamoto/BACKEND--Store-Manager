@@ -1,4 +1,5 @@
 const productsService = require('../services/productsService');
+const mapStatusHTTP = require('../middlewares/stattusHTTP');
 
 const getAllProducts = async (_req, res) => {
   try {
@@ -27,7 +28,19 @@ const getProductById = async (req, res) => {
   }
 };
 
+const newProductController = async (req, res) => { 
+  try {
+    const newProduct = req.body;
+    const { status, data } = await productsService.newProductService(newProduct);
+    return res.status(mapStatusHTTP[status]).json(data);
+  } catch (error) {
+    console.error('Error creating new product:', error);
+    return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Internal Server Error' } };
+  }
+};
+
 module.exports = {
   getAllProducts,
   getProductById,
+  newProductController,
 };
