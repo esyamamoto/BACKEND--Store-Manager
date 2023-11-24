@@ -3,8 +3,6 @@ const sinon = require('sinon');
 const model = require('../../../src/models/salesModel');
 const service = require('../../../src/services/salesService');
 const db = require('../../../src/models/db');
-const productsService = require('../../../src/services/productsService');
-const { itemsSold, salesOK } = require('../../mocks/salesMock');
 
 describe('Testes do salesService:', function () {
   it('Verifica se retorna a mensagem de erro', async function () {

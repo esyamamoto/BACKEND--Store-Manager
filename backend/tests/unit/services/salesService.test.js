@@ -44,7 +44,6 @@ describe('Testes do salesService:', function () {
         quantity: 5,
       },
     ];
-    //  const servRes = await salesService.inputSales(inputSaleNoId);
     const response = await salesService.newSalesService(sales);
     expect(response.status).to.be.equal('CREATED');
   });
