@@ -1,5 +1,7 @@
 const salesService = require('../services/salesService');
+const mapStatusHTTP = require('../middlewares/stattusHTTP');
 
+// Função assíncrona para obter todas as vendas
 const getAllSales = async (_req, res) => {
   try {
     const sales = await salesService.getSales();
@@ -10,6 +12,7 @@ const getAllSales = async (_req, res) => {
   }
 };
 
+// Função assíncrona para obter detalhes de uma venda por ID
 const getSalesById = async (req, res) => {
   const { id } = req.params;
 
@@ -27,7 +30,20 @@ const getSalesById = async (req, res) => {
   }
 };
 
+// Função assíncrona para processar a entrada de vendas
+const newSalesController = async (req, res) => {
+  try {
+    const newSales = req.body;
+    const { status, data } = await salesService.newSalesService(newSales);
+    return res.status(mapStatusHTTP[status]).json(data);
+  } catch (error) {
+    console.error('Error creating new sale:', error);
+    return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Internal Server Error' } };
+  }
+};
+
 module.exports = {
   getAllSales,
   getSalesById,
+  newSalesController,
 };

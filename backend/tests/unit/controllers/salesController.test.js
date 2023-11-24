@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const Sinon = require('sinon');
 const controller = require('../../../src/controllers/salesController');
-const { mockSales, salesNoFound } = require('../../mocks/salesMock');
+const { sales01, mockSales, salesNoFound } = require('../../mocks/salesMock');
 const service = require('../../../src/services/salesService');
 
 describe('Testes do salesController:', function () {
@@ -22,6 +22,7 @@ describe('Testes do salesController:', function () {
 
     Sinon.restore();
   });
+
   it('Busca com id inválido e traz o NOT_FOUND', async function () {
     Sinon.stub(service, 'getSalesById').resolves(salesNoFound);
 
@@ -47,6 +48,20 @@ describe('Testes do salesController:', function () {
 
     Sinon.assert.calledWith(res.status, 500);
     Sinon.assert.calledWith(res.json, { message: errorMessage });
+  });
+
+  it('Checa quando pede um Id que existe', async function () {
+    Sinon.stub(service, 'getSalesById').resolves(sales01);
+    const req = {
+      params: { SalesID: 1 },
+    };
+    const res = {};
+    res.status = Sinon.stub().returns(res);
+    res.json = Sinon.stub().returns(res);
+
+    await controller.getSalesById(req, res);
+    expect(res.status.calledWith(200)).to.be.equal(true);
+    expect(res.json.calledWith(sales01)).to.be.equal(true);
   });
 
   afterEach(function () {

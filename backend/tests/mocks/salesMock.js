@@ -22,10 +22,17 @@ const sales01 = [
   },
 ];
 
-const salesId = 2;
+const salesId = 1;
 
 const salesOK = { status: 'SUCCESS', data: sales01 };
 const salesNoFound = { status: 'NOT_FOUND', data: { message: 'Sale not found' } };
+
+const itemsSold = [
+  {
+    productId: 1,
+    quantity: 1,
+  },
+];
 
 module.exports = {
   mockSales,
@@ -33,4 +40,5 @@ module.exports = {
   salesOK,
   salesId,
   salesNoFound,
+  itemsSold,
 };
