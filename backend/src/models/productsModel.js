@@ -1,5 +1,6 @@
 const connectionDB = require('./db');
 
+// Obtém todos os produtos do banco de dados
 const getProducts = async () => {
   try {
     const [products] = await connectionDB.execute('SELECT * FROM products ORDER BY id ASC');
@@ -10,6 +11,7 @@ const getProducts = async () => {
   }
 };
 
+// Obtém um produto pelo ID do banco de dados
 const getProductById = async (id) => {
   try {
     const [product] = await connectionDB.execute('SELECT * FROM products WHERE id = ?', [id]);
@@ -20,6 +22,7 @@ const getProductById = async (id) => {
   }
 };
 
+// Insere um novo produto no banco de dados
 const newProductModel = async (newProduct) => {
   try {
     const { name } = newProduct;
@@ -34,8 +37,21 @@ const newProductModel = async (newProduct) => {
   }
 };
 
+// Atualiza o nome de um produto no banco de dados
+const updateProductModel = async (name, id) => {
+  try {
+    const [{ affectedRows }] = await connectionDB
+      .execute('UPDATE products SET name = ? WHERE id = ?', [name, id]);
+    return affectedRows;
+  } catch (error) {
+    console.error({ message: 'Product not updated' });
+    throw error;
+  }
+};
+
 module.exports = {
   getProducts,
   getProductById,
   newProductModel,
+  updateProductModel,
 };

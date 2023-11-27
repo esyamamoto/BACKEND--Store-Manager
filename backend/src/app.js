@@ -25,6 +25,9 @@ app.post('/products', validationProductsName, productsController.newProductContr
 // Rota para criar um novo sale
 app.post('/sales', salesController.newSalesController);
 
+// Rota para atualizar um product
+app.put('/products/:id', validationProductsName, productsController.updateProductController);
+
 // não remova esse endpoint, é para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.json({ status: 'Store Manager UP!' });

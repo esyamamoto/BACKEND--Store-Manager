@@ -14,7 +14,7 @@ const mockProducts = [
 ];
 const product01 = {
   id: 1,
-  name: 'Martelo de Thor',
+  name: 'Machado do Thor Stormbreaker',
 };
 
 const productOK = { status: 'SUCCESS', data: product01 };

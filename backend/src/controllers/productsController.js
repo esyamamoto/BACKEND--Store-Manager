@@ -1,6 +1,8 @@
 const productsService = require('../services/productsService');
 const mapStatusHTTP = require('../middlewares/stattusHTTP');
+const updateProductsService = require('../services/productsService');
 
+// Obtém todos os produtos
 const getAllProducts = async (_req, res) => {
   try {
     const products = await productsService.getProducts();
@@ -11,6 +13,7 @@ const getAllProducts = async (_req, res) => {
   }
 };
 
+// Obtém um produto pelo ID do banco de dados
 const getProductById = async (req, res) => {
   const { id } = req.params;
 
@@ -28,6 +31,7 @@ const getProductById = async (req, res) => {
   }
 };
 
+// Insere um novo produto no banco de dados
 const newProductController = async (req, res) => { 
   try {
     const newProduct = req.body;
@@ -39,8 +43,25 @@ const newProductController = async (req, res) => {
   }
 };
 
+// Atualiza o nome de um produto no banco de dados
+const updateProductController = async (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
+  try {
+    await updateProductsService.updateProductService(name, id);
+    const product = await productsService.getProductById(id);
+    if (product === undefined) {
+      return res.status(404).json({ message: 'Product not found' });
+    } res.status(200).json(product);
+  } catch (error) {
+    console.error('Error updating product:', error);
+    return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Internal Server Error' } };
+  }
+};  
+
 module.exports = {
   getAllProducts,
   getProductById,
   newProductController,
+  updateProductController,
 };
