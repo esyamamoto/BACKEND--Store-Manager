@@ -50,7 +50,7 @@ describe('Testes do salesController:', function () {
     Sinon.assert.calledWith(res.json, { message: errorMessage });
   });
 
-  it('Checa quando pede um Id que existe', async function () {
+  it('Verifica quando pede um Id que existe', async function () {
     Sinon.stub(service, 'getSalesById').resolves(sales01);
     const req = {
       params: { SalesID: 1 },

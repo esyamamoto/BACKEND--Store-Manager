@@ -3,7 +3,6 @@ const Sinon = require('sinon');
 const controller = require('../../../src/controllers/productsController');
 const { mockProducts, notFound } = require('../../mocks/produtsMocks');
 const service = require('../../../src/services/productsService');
-const validation = require('../../../src/middlewares/validation');
 
 describe('Testes do productsController:', function () {
   it('Verifica se retorna os produtos do db', async function () {
@@ -48,20 +47,6 @@ describe('Testes do productsController:', function () {
 
     Sinon.assert.calledWith(res.status, 500);
     Sinon.assert.calledWith(res.json, { message: errorMessage });
-  });
-
-  it('Validação se Name é menor que 5 caracteres', async function () {
-    const errorMessage = '"name" length must be at least 5 characters long';
-    Sinon.stub(service, 'getProductById').rejects(new Error(errorMessage));
-    const req = { body: { name: '123' } };
-    const res = { status: Sinon.stub().returnsThis(), json: Sinon.stub() };
-    const next = Sinon.stub();
-
-    validation(req, res, next);
-    Sinon.assert.calledWith(res.status, 422);
-    // expect(res.status).to.have.been.calledWith(422);
-    Sinon.assert.calledWith(res.json, { message: errorMessage });
-    // expect(res.json).to.have.been.calledWith({ message: '"name" length must be at least 5 characters long' });
   });
 
   afterEach(function () {

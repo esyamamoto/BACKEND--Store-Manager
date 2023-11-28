@@ -39,7 +39,6 @@ const productIdOK = async (sales) => {
     return { status: 'SUCCESS', data: { message: 'ProductID are valid' } };
   } catch (error) {
     console.error('Error checking product IDs:', error);
-    return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Internal Server Error' } };
   }
 };
 
@@ -85,7 +84,7 @@ const newSalesService = async (newSales) => {
     return { status: 'CREATED', data: { id: salesId, itemsSold: newSales } };
   } catch (error) {
     console.error('Error creating new sale:', error);
-    return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Internal Server Error' } };
+    return { status: 'NOT_FOUND', data: { message: 'Product not found' } };
   }
 };
 

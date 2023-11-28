@@ -34,6 +34,7 @@ describe('Testes do productsService:', function () {
 
     db.execute.restore();
   });
+  
   it('Retorna se foi possivel criar um novo produto com sucesso', async function () {
     const newProduct = { name: 'ProdutoX' };
     const insertId = 4;

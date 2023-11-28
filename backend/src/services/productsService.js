@@ -37,7 +37,7 @@ const newProductService = async (newProduct) => {
 const updateProductService = async (name, id) => {
   try {
     const dataX = await updateProductModel.updateProductModel(name, id);
-    if (!dataX) return { status: 404, data: { message: 'Product not found' } };
+    if (!dataX) return { status: 'BAD_REQUEST', data: { message: '"name" is required' } };
     return { status: 200, data: dataX };
   } catch (error) {
     console.error('Error updating product:', error);
